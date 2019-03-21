@@ -1,13 +1,8 @@
 from aws_query_requests import Credentials, QueryRequest, QueryRequestHandler
 import urllib
+import json
 
-query_request_handler = QueryRequestHandler()
-credentials = Credentials(
-    access_key='<ACCESS_KEY>',
-    secret_key='<SECRET_KEY>'
-)
-
-def test_describe_regions():
+def test_describe_regions(credentials, query_request_handler, region='us-east-1'):
     query_request = QueryRequest(
         credentials=credentials,
         method='GET',
@@ -20,7 +15,7 @@ def test_describe_regions():
     )
     query_request_handler.performRequest(query_request)
 
-def test_describe_key_pairs():
+def test_describe_key_pairs(credentials, query_request_handler, region='us-east-1'):
     query_request = QueryRequest(
         credentials=credentials,
         method='GET',
@@ -33,7 +28,7 @@ def test_describe_key_pairs():
     )
     query_request_handler.performRequest(query_request)
 
-def test_run_instances():
+def test_run_instances(credentials, query_request_handler, region='us-east-1'):
     request_parameters_map = {
         'Action' : 'RunInstances',
         'ImageId' : 'ami-02da3a138888ced85',
@@ -53,9 +48,9 @@ def test_run_instances():
         content_type='application/x-www-form-urlencoded',
         request_parameters=request_parameters
     )
-    query_request_handler.performRequest(query_request)
+    query_request_handler.performRequest(query_request, region='us-east-1')
 
-def test_describe_instances():
+def test_describe_instances(credentials, query_request_handler, region='us-east-1'):
     query_request = QueryRequest(
         credentials=credentials,
         method='GET',
@@ -68,7 +63,7 @@ def test_describe_instances():
     )
     query_request_handler.performRequest(query_request)
 
-def test_terminate_instances():
+def test_terminate_instances(credentials, query_request_handler, region='us-east-1'):
     request_parameters_map = {
         'InstanceId.1' : 'i-07185aa5f1e0cf9ac',
         'Action' : 'TerminateInstances',
@@ -87,9 +82,22 @@ def test_terminate_instances():
     )
     query_request_handler.performRequest(query_request)
 
+def read_credentials():
+    with open('credentials.json') as json_file:
+        data = json.load(json_file)
+        credentials = Credentials(
+            access_key=data['access_key'],
+            secret_key=data['secret_key']
+        )
+        return credentials
+
+
 if __name__ == '__main__':
-    test_describe_regions()
-    #test_describe_key_pairs()
-    #test_run_instances()
-    #test_describe_instances()
-    #test_terminate_instances()
+    credentials = read_credentials()
+    query_request_handler = QueryRequestHandler()
+    # Uncomment the required lines below to test
+    test_describe_regions(credentials, query_request_handler)
+    #test_describe_key_pairs(credentials, query_request_handler)
+    #test_run_instances(credentials, query_request_handler)
+    #test_describe_instances(credentials, query_request_handler)
+    #test_terminate_instances(credentials, query_request_handler)
