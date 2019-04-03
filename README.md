@@ -23,6 +23,9 @@ The following API endpoints have been tested for EC2 instances:
 - RunInstances
 - DescribeInstances
 - TerminateInstances
+- DescribeDBInstances
+- CreateDBInstance
+- DeleteDBInstance
 
 ## Useful Links
 - https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_Operations.html  

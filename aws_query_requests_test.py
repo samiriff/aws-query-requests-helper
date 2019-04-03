@@ -82,6 +82,88 @@ def test_terminate_instances(credentials, query_request_handler, region='us-east
     )
     query_request_handler.performRequest(query_request)
 
+def test_terminate_instances(credentials, query_request_handler, region='us-east-1'):
+    request_parameters_map = {
+        'Action' : 'DescribeDBInstances',
+        'Version': '2014-09-01'
+    }
+    request_parameters = urllib.parse.urlencode(request_parameters_map)
+    query_request = QueryRequest(
+        credentials=credentials,
+        method='POST',
+        service="rds",
+        host='rds.amazonaws.com',
+        region='us-east-1',
+        endpoint='https://rds.amazonaws.com',
+        content_type='application/x-www-form-urlencoded',
+        request_parameters=request_parameters
+    )
+    query_request_handler.performRequest(query_request)
+
+def test_describe_db_instances(credentials, query_request_handler, region='us-east-1'):
+    request_parameters_map = {
+        'Action' : 'DescribeDBInstances',
+        'Version': '2014-09-01'
+    }
+    request_parameters = urllib.parse.urlencode(request_parameters_map)
+    query_request = QueryRequest(
+        credentials=credentials,
+        method='POST',
+        service="rds",
+        host='rds.amazonaws.com',
+        region='us-east-1',
+        endpoint='https://rds.amazonaws.com',
+        content_type='application/x-www-form-urlencoded',
+        request_parameters=request_parameters
+    )
+    query_request_handler.performRequest(query_request)
+
+
+
+def test_create_db_instances(credentials, query_request_handler, region='us-east-1'):
+    request_parameters_map = {
+        'DBInstanceClass': 'db.t2.micro',
+        'Engine': 'postgres',
+        'DBInstanceIdentifier': 'rds-12',
+        'MasterUsername': 'someuser',
+        'MasterUserPassword': 'somepass',
+        'AllocatedStorage': '15',
+        'Action' : 'CreateDBInstance',
+        'Version': '2014-09-01'
+    }
+    request_parameters = urllib.parse.urlencode(request_parameters_map)
+    query_request = QueryRequest(
+        credentials=credentials,
+        method='POST',
+        service="rds",
+        host='rds.amazonaws.com',
+        region='us-east-1',
+        endpoint='https://rds.amazonaws.com',
+        content_type='application/x-www-form-urlencoded',
+        request_parameters=request_parameters
+    )
+    query_request_handler.performRequest(query_request)
+
+def test_delete_db_instances(credentials, query_request_handler, region='us-east-1'):
+    request_parameters_map = {
+        'DBInstanceIdentifier': 'rds-12',
+        'SkipFinalSnapshot': 'true',
+        'Action' : 'DeleteDBInstance',
+        'Version': '2014-09-01'
+    }
+    request_parameters = urllib.parse.urlencode(request_parameters_map)
+    query_request = QueryRequest(
+        credentials=credentials,
+        method='POST',
+        service="rds",
+        host='rds.amazonaws.com',
+        region='us-east-1',
+        endpoint='https://rds.amazonaws.com',
+        content_type='application/x-www-form-urlencoded',
+        request_parameters=request_parameters
+    )
+    query_request_handler.performRequest(query_request)
+
 def read_credentials():
     with open('credentials.json') as json_file:
         data = json.load(json_file)
@@ -95,9 +177,16 @@ def read_credentials():
 if __name__ == '__main__':
     credentials = read_credentials()
     query_request_handler = QueryRequestHandler()
-    # Uncomment the required lines below to test
+
+    '''
+    Uncomment the required lines below to test
+    '''
+
     test_describe_regions(credentials, query_request_handler)
     #test_describe_key_pairs(credentials, query_request_handler)
     #test_run_instances(credentials, query_request_handler)
     #test_describe_instances(credentials, query_request_handler)
     #test_terminate_instances(credentials, query_request_handler)
+    #test_describe_db_instances(credentials, query_request_handler)
+    #test_create_db_instances(credentials, query_request_handler)
+    #test_delete_db_instances(credentials, query_request_handler)
